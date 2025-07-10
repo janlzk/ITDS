@@ -4,8 +4,8 @@ exp_configuration={
         'dataset':'ImageNet',
         'image_size':224,
         'class_num':1000, 
-        'eval_path':'eval_data/ImageNet',
-        'tg_imgs_path':'eval_data/tg_imgs/cab/',
+        'eval_path':'eval_data/clean_data/',
+        'tg_imgs_path':'eval_data/tg_imgs/',
         ####### attack setting #######
         'targeted':True,
         'epsilon':16,
