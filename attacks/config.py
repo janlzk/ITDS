@@ -24,7 +24,7 @@ exp_configuration={
         'DI':True,
         ####################################
         # LMM
-        'Logit':'TopkLoss',  # 'LogitLoss'  'CELoss' 'TopkLoss'   'Topkdis'  
+        'Logit':'TopkLoss',  # 'LogitLoss'  'CELoss'  'TopkLoss'  'Topkdis'  
         'alpha':1,
         'p':2,
         'noise_std':0.2,
