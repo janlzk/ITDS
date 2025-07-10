@@ -18,7 +18,8 @@ scipy >= 1.9.3
 
 ### Prepare the data and models
 
-For data, you can place data in `./eval_data/`.  
+This is just a sample code version, and for ease of use, all AEs correspond to a unified random target label in this version.
+For clean samples and targeted samples, you can place data in `./eval_data/clean_data/` and `./eval_data/tg_data/`, respectively.  
 For models, all normal training models are from the pytorch official website, and the calling method is already in the `craft.py` and `eval.py`, or you can consult the official documentation to use other models. And for all adversarial training defense models, you can download from [here](https://drive.google.com/file/d/13DcsFytr4P1A52xwvbvkg2TS2tL185Oe/view?usp=sharing) and place it in `./defense_models/`, their calling methods are also integrated into our codes (Have been commented).
 
 ### Running Attack
