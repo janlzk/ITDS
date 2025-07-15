@@ -142,9 +142,10 @@ elif model_white_name in ['vgg16']:
 
 itds = ITDS(model=model, eps=eps/255, alpha=step_size/255, eta=itds_proportion, steps=steps, decay=1.0, m1=5, m2=tg_samples, di_prob=di_prob, resize_rate=resize_rate, len_kernel=len_kernel, trf=trf_nor, config_idx=config_idx, signmix=signmix, mimix=mimix, TI=TI_mode, DI=DI_mode, norm=norm_mode)
 tidim = TIDIM(model=model, eps=eps/255, alpha=step_size/255, steps=steps, decay=1.0, trf=trf_nor, len_kernel=len_kernel, resize_rate=resize_rate, di_prob=di_prob, TI=TI_mode, DI=DI_mode, config_idx=config_idx)
+admix = Admix(model=model, epsilon=eps/255, alpha=step_size/255, epoch=steps, decay=1, targeted=targeted, ks=len_kernel, mean=mean, std=std, TI=TI_mode, resize_rate=resize_rate, di_prob=di_prob, DI=DI_mode, num_scale=5, num_admix=num_admix, admix_strength=admix_portion, loss_type=logit)
 sia = SIA(model, eps/255, step_size/255, steps, decay=1, targeted=targeted, ks=len_kernel, mean=mean, std=std, TI=TI_mode, loss_type=loss_fn)
 bsr = BSR(model=model, epsilon=eps/255, alpha=step_size/255, epoch=steps, decay=1, targeted=targeted, ks=len_kernel, mean=mean, std=std, TI=TI_mode, resize_rate=resize_rate, di_prob=di_prob, DI=DI_mode, loss_type=loss_fn)
-admix = Admix(model=model, epsilon=eps/255, alpha=step_size/255, epoch=steps, decay=1, targeted=targeted, ks=len_kernel, mean=mean, std=std, TI=TI_mode, resize_rate=resize_rate, di_prob=di_prob, DI=DI_mode, num_scale=5, num_admix=num_admix, admix_strength=admix_portion, loss_type=logit)
+odim = ODIM(model=model, eps=eps/255, alpha=step_size/255, steps=steps, decay=1.0, trf=trf_nor, DI=DI_mode, TI=TI_mode, resize_rate=resize_rate, len_kernel=len_kernel, di_prob=di_prob, config_idx=config_idx)
 
 total = 0
 count = 0
@@ -156,17 +157,19 @@ for index, (images, labels, paths) in enumerate(tqdm(eval_loader)):
     if attacker in ['CFM']:
         adv_images = advanced_fgsm(attack_type, model, images, labels, tg_labels, 
                                    num_iter=steps,max_epsilon=eps,step_size=step_size,DI_type=DI_type,di_prob=di_prob,resize_rate=resize_rate,
-                                   kernel_size=len_kernel,mix_prob=mix_prob,count=count,config_idx=config_idx)  
-    elif attacker in ['ITDS']:
-        adv_images = itds(images, labels, tg_images, tg_labels)
-    elif attacker in ['SIA']:
-        adv_images = sia(images, tg_labels)
-    elif attacker in ['BSR']:
-        adv_images = bsr(images, tg_labels)
+                                   kernel_size=len_kernel,mix_prob=mix_prob,count=count,config_idx=config_idx) 
     elif attacker in ['DIM']:
         adv_images = tidim(images, tg_labels)
     elif attacker in ['Admix']:
         adv_images = admix(images, tg_labels)
+    elif attacker in ['ODIM']:
+        adv_images = odim(images, tg_labels)
+    elif attacker in ['SIA']:
+        adv_images = sia(images, tg_labels)
+    elif attacker in ['BSR']:
+        adv_images = bsr(images, tg_labels)
+    elif attacker in ['ITDS']:
+        adv_images = itds(images, labels, tg_images, tg_labels)
     count = count + 1
     
     for i, adv_image in enumerate(adv_images):
