@@ -29,7 +29,7 @@ exp_settings = exp_configuration[config_idx]
 batch_size = 32
 
 model_white_name = 'resnet50'
-attacker = 'ITDS'   # ITDS CFM SIA Admix BSR DIM
+attacker = 'ITDS'   # DIM Admix ODIM CFM SIA BSR ITDS 
 tg_label = random.randint(0, 999)
 
 targeted = True
